@@ -2,7 +2,7 @@ Installation of Linux on a Zotac Zbox PI321 (with 32 bit UEFI)
 
 Create a bootable USB drive with a 64 bit Linux
 
-Copy the file bootia32.efi from github into the folder "EFI/boot" of said USB drive
+Copy the file bootia32.efi from github https://github.com/hirotakaster/baytail-bootia32.efi  into the folder "EFI/boot" of said USB drive
 
 Connect the drive to the Mini-PC and start it up
 
