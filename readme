@@ -17,3 +17,76 @@ Use GParted to resize the existing Windows partition in order to free up space f
 Install Linux to the internal eMMC
 
 After the installation don't restart, but connect a network cable to the PC, open a terminal and enter these commands:
+
+
+sudo -s
+
+mount /dev/mmcblk0p5 /mnt
+
+mount /dev/mmcblk0p1 /mnt/boot/efi
+
+for i in /dev /dev/pts /proc /sys /run; do sudo mount -B $i /mnt$i; done
+
+mount -o bind /etc/resolv.conf /mnt/etc/resolv.conf
+
+chroot /mnt /bin/bash
+
+apt-get update
+
+apt-get -y remove grub-efi-amd64
+
+apt-get -y install grub-efi-ia32
+
+sed -i 's/vmlinuz-3.16.0-23-generic.efi.signed/vmlinuz-3.16.0-23-generic/g' /boot/grub/grub.cfg
+
+Then restart the PC and Linux should be able to be booted
+
+Almost all of these steps worked perfectly fine for me (I had to change the names of the two partitions to the ones in my PC of course, and the number of the kernel in the last line to the one that was shown by "uname -r"), up until here:
+
+apt-get -y remove grub-efi-amd64
+
+Here are the lines following it:
+
+root@mint:/# apt-get -y remove grub-efi-amd64
+
+Reading package lists... Done
+
+Building dependency tree... Done
+
+Reading state information... Done
+
+Package 'grub-efi-amd64' is not installed, so not removed
+
+0 upgraded, 0 newly installed, 0 to remove and 89 not upgraded.
+
+root@mint:/# apt-get -y install grub-efi-ia32
+
+Reading package lists... Done
+
+Building dependency tree... Done
+
+Reading state information... Done
+
+Some packages could not be installed. This may mean that you have
+
+requested an impossible situation or if you are using the unstable
+
+distribution that some required packages have not yet been created
+
+or been moved out of Incoming.
+
+The following information may help to resolve the situation:
+
+The following packages have unmet dependencies:
+
+shim-signed : Depends: grub-efi-amd64-signed but it is not going to be installed or
+
+grub-efi-arm64-signed but it is not installable
+
+E: Error, pkgProblemResolver::Resolve generated breaks, this may be caused by held packages.
+
+root@mint:/# sed -i 's/vmlinuz-5.15.0-56-generic.efi.signed/vmlinuz-5.15.0-56-generic/g' /boot/grub/grub.cfg
+
+root@mint:/#
+
+After restarting, I simply end up in the EFI shell, and I don't know how to proceed from here
