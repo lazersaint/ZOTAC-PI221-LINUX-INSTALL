@@ -1,0 +1,19 @@
+Installation of Linux on a Zotac Zbox PI321 (with 32 bit UEFI)
+
+Create a bootable USB drive with a 64 bit Linux
+
+Copy the file bootia32.efi from github into the folder "EFI/boot" of said USB drive
+
+Connect the drive to the Mini-PC and start it up
+
+Go into the UEFI, disable "Secure Boot" and "Fast Boot", save, exit and restart
+
+Boot from the USB drive and select "Try Ubuntu without installing"
+
+Disable the screen saver, because the PC is not able to wake up from it
+
+Use GParted to resize the existing Windows partition in order to free up space for Linux (I completely deleted it because I don't want to use Windows at all anymore)
+
+Install Linux to the internal eMMC
+
+After the installation don't restart, but connect a network cable to the PC, open a terminal and enter these commands:
